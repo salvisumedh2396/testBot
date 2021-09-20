@@ -24,7 +24,10 @@ async def on_member_join(member):
 async def on_member_remove(member):
     print(f'{member} has left the server.')
 
-
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Please pass in all arguments.')
 
 #ctx - represents the context of the command
 #when user types .ping it will print pong with latency
@@ -38,6 +41,12 @@ async def ping(ctx):
 @client.command()
 async def clear(ctx, amount=5):
     await ctx.channel.purge(limit=amount)
+
+#an error that is specific to clear command
+@clear.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Please specify an amount of messages to delete')
 
 @client.command()
 async def kick(ctx, member: discord.Member, *, reason=None):
@@ -72,5 +81,5 @@ async def _8ball(ctx, *,question):
 #and then, we need to run the client
 #within the parenthesis we need to add the token - it links the code to the
 #application so that the code can manipulate the appln
-client.run('ODg4MjUyNjA5MDU0NTA3MDE4.YUP_tA.CUZgfI3SwadG85oC8a4TQRUPQPY')
+client.run('ODg4MjUyNjA5MDU0NTA3MDE4.YUP_tA.ZkRi9PcX5zFLKk4c8XCFJTZZ76w')
 
